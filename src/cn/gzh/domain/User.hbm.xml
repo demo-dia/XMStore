@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+ <class name="cn.gzh.domain.User" table="user">
+	
+	<id name="uid" column="uid" length="20">
+		<generator class="native"></generator>
+	</id> 
+	
+	<property name="loginName" column="loginName" length="20"></property>
+	<property name="password" column="password" length="20"></property>
+	<property name="userName" column="userName" length="20"></property>
+	<property name="email" column="email" length="30"></property>
+	<property name="sex" column="sex" length="5"></property>
+	<property name="state" column="state" length="1"></property>
+	<property name="code" column="code" length="100"></property>
+	
+	<set name="addresses" lazy="false" order-by="aid">
+		<key column="uid"></key>
+		<one-to-many class="cn.gzh.domain.Address" />
+	</set>
+	
+
+	
+	<set name="orders" lazy="false" order-by="oid desc">
+		<key column="uid"></key>
+		<one-to-many class="cn.gzh.domain.Order" />
+	</set>
+	
+		<set name="favorites" lazy="false" table="user_product">
+			<key column="uno"></key>
+		<many-to-many class="cn.gzh.domain.Product" column="pno" ></many-to-many>
+	</set>
+	
+ </class>
+ </hibernate-mapping>

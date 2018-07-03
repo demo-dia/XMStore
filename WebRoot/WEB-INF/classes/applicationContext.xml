@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- 使用hibernate配置文件来配置sessionfactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+	</bean>
+	
+	<!-- 配置声明式事务管理器你 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 注解开启事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!--*******************************  Action配置  **************************-->
+	<bean id="pageAction" class="cn.gzh.action.PageAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+		<property name="categoryService" ref="categoryService"></property>
+		<property name="productService" ref="productService"></property>
+		<property name="cityService" ref="cityService"></property>
+		<property name="orderService" ref="orderService"></property>
+	</bean>
+	 <bean id="userAction" class="cn.gzh.action.UserAction" scope="prototype">
+	 	<property name="userService" ref="userService"></property>
+	 	<property name="addressService" ref="addressService"></property>
+	 	<property name="cityService" ref="cityService"></property>
+	 	<property name="productService" ref="productService"></property>
+	 </bean>
+	 <bean id="categoryAction" class="cn.gzh.action.CategoryAction" scope="prototype">
+		<property name="categoryService" ref="categoryService"></property>
+	 </bean>
+	 <bean id="productAction" class="cn.gzh.action.ProductAction" scope="prototype">
+		<property name="productService" ref="productService"></property>
+	 </bean>
+	 <bean id="orderAction" class="cn.gzh.action.OrderAction" scope="prototype">
+		<property name="orderService" ref="orderService"></property>
+		<property name="addressService" ref="addressService"></property>
+		<property name="userService" ref="userService"></property>
+	 </bean>
+	 
+	 <!--*******************************  Service配置  **************************-->
+	 <bean id="userService" class="cn.gzh.service.impl.UserServiceImpl" scope="prototype">
+	 	<property name="userDao" ref="userDao"></property>
+	 </bean>
+	 <bean id="categoryService" class="cn.gzh.service.impl.CategoryServiceImpl" scope="prototype">
+	 	<property name="categoryDao" ref="categoryDao"></property>
+	 </bean>
+	 <bean id="productService" class="cn.gzh.service.impl.ProductServiceImpl" scope="prototype">
+	 	<property name="productDao" ref="productDao"></property>
+	 </bean>
+	 <bean id="cityService" class="cn.gzh.service.impl.CityServiceImpl" scope="prototype">
+		 <property name="cityDao" ref="cityDao"></property>
+	 </bean>
+	 <bean id="addressService" class="cn.gzh.service.impl.AddressServiceImpl" scope="prototype">
+		 <property name="addressDao" ref="addressDao"></property>
+	 </bean>
+	 <bean id="orderService" class="cn.gzh.service.impl.OrderServiceImpl" scope="prototype">
+		 <property name="orderDao" ref="orderDao"></property>
+	 </bean>
+	 
+	 
+	 <!--*******************************  Dao配置  **************************-->
+	 <bean id="userDao" class="cn.gzh.dao.impl.UserDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	 <bean id="categoryDao" class="cn.gzh.dao.impl.CategoryDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	 <bean id="productDao" class="cn.gzh.dao.impl.ProductDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	 <bean id="cityDao" class="cn.gzh.dao.impl.CityDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	 <bean id="addressDao" class="cn.gzh.dao.impl.AddressDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	 <bean id="orderDao" class="cn.gzh.dao.impl.OrderDaoImpl" scope="prototype">
+	 	<property name="sessionFactory" ref="sessionFactory"></property>
+	 </bean>
+	
+</beans>

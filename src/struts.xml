@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="false"></constant>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<constant name="struts.action.extension" value="html,"></constant>
+	
+	<!-- 
+	<package name="myDefault" extends="struts-default" abstract="true">
+		<global-results>
+			<result name="msg">/WEB-INF/jsp/message.jsp</result>
+			<result name="error">/WEB-INF/jsp/errorMessage.jsp</result>
+		</global-results>
+	
+	
+	</package> -->
+	
+	
+	<!--页面跳转模块-->
+	<package name="page" extends="struts-default" >
+		
+		<action name="*" class="pageAction" method="go{1}">
+			<result name="go_{1}_success">/WEB-INF/jsp/{1}.jsp</result>
+			<result name="go_logout_success">/WEB-INF/jsp/index.jsp</result>	
+			<result name="login">/WEB-INF/jsp/login.jsp</result>	
+			<result name="error">/WEB-INF/jsp/errorMessage.jsp</result>	
+		</action>
+
+		<!-- 获得验证码 -->
+		<action name="getCheckImg" class="pageAction" method="getCheckImg"></action>
+		
+		<!-- 判断验证码是否正确 -->
+		<action name="checkCodeImg" class="pageAction" method="checkCodeImg"></action>
+		
+		<!-- 注册页面验证用户名是否存在 -->
+		<action name="register_checkUserName" class="pageAction" method="register_checkUserName"></action>
+		
+		<!-- 根据省份id查询城市 -->
+		<action name="findCity" class="pageAction" method="findCity"></action>
+			<!-- 根据城市id查询县区 -->
+		<action name="findCounty" class="pageAction" method="findCounty"></action>
+	
+	</package>
+	
+	
+		<!-- 账户页面跳转模块 -->
+	<package name="account" extends ="struts-default" namespace="/account">
+		<action name="account_*" class="pageAction" method="go_account_{1}">
+			<result name="go_account_{1}_success">/WEB-INF/jsp/account/{1}.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 用户操作模块 -->
+	<package name="user" extends="struts-default" namespace="/user">
+		
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="{1}_success">/WEB-INF/jsp/message.jsp</result>
+			<result name="{1}_unsuccessful">/WEB-INF/jsp/errorMessage.jsp</result>
+			
+			<result name="login_success" type="redirectAction">index</result>
+			<result name="login_unsuccessful">/WEB-INF/jsp/login.jsp</result>
+			
+			<result name="account_{1}_success" type="redirectAction">
+				<param name="namespace">/account</param>
+				<param name="actionName">account_deliverAddress</param>
+			</result>
+		
+			<result name="login">/WEB-INF/jsp/login.jsp</result>
+			
+			<result name="cancelCollect_success" type="redirectAction">
+				<param name="namespace">/account</param>
+				<param name="actionName">account_myFavorites</param>
+			</result>
+		</action>
+		
+	</package>
+	
+	<!-- 商品模块 -->
+	<package name="product" extends="struts-default" namespace="/product">
+		<action name="product_*" class="productAction" method="{1}">
+			<result>/WEB-INF/jsp/list.jsp</result>
+			<result name="product_find_error">/WEB-INF/jsp/errorMessage.jsp</result>
+			<result name="product_info_error">/WEB-INF/jsp/errorMessage.jsp</result>
+			<result name="product_info_success">/WEB-INF/jsp/info.jsp</result>
+			
+			<result name="shopcart_{1}_success" type="redirectAction">shopcart</result>
+		</action>
+	</package>
+	
+	
+
+	
+	<!-- 订单模块 -->
+	<package name="order" extends="struts-default" namespace="/order">
+		<action name="order_*" class="orderAction" method="{1}">
+		
+			<result name="order_save_success" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">order</param>
+			</result>
+			
+			<result name="order_{1}_notCart" type="redirectAction"><!-- 购物车没商品 -->
+				<param name="namespace">/</param>
+				<param name="actionName">shopcart</param>
+			</result>
+			
+			<result name="login" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">login</param>
+			</result>
+			
+			<result name="msg">/WEB-INF/jsp/message.jsp</result>	
+			
+			<result name="order_cancel_success" type="redirectAction">
+				<param name="namespace">/account</param>
+				<param name="actionName">account_myOrders</param>
+			</result>
+			
+		</action>
+	</package>
+
+</struts>

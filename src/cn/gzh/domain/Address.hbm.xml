@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+<class name="cn.gzh.domain.Address" table="address" lazy="false">
+	<id name="aid" column="aid" length="20">
+		<generator class="native"></generator>
+	</id>
+	
+	<property name="addressee" column="addressee" length="20" not-null="true"></property>
+	<property name="phone" column="phone" length="15" not-null="true"></property>
+	<property name="postalcode" column="postalcode" length="10"></property>
+	<property name="isDefault" column="isDefault"></property>
+	<property name="street" column="street" ></property>
+	
+	<many-to-one name="province" class="cn.gzh.domain.City" column="province"></many-to-one>
+	<many-to-one name="city" class="cn.gzh.domain.City" column="city"></many-to-one>
+	<many-to-one name="county" class="cn.gzh.domain.City" column="county"></many-to-one>
+	
+	<many-to-one name="user" class="cn.gzh.domain.User" column="uid"></many-to-one>
+	
+</class>
+</hibernate-mapping>
