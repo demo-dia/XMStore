@@ -8,10 +8,10 @@
 ![detail](/screen/show1.png)
 
 ## 环境
-spring 3.2.0
-struts2 2.3.15.3
-hibernate3
-jdk1.8
+spring 3.2.0 
+struts2 2.3.15.3 
+hibernate3 
+jdk1.8 
 tomcat 8.5
 
 ## 联系方式
